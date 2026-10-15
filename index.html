@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1020">
+<meta name="description" content="A dark school bell and hold-to-play soundboard.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<title>School Bell Studio</title>
+<style>
+:root{color-scheme:dark;--bg:#0a0d15;--panel:#121827;--panel2:#192236;--line:#2a3650;--text:#f4f6ff;--muted:#a0acc2;--blue:#718cff;--green:#39d6a0;--red:#ff647d;--gold:#ffcb70}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#1a2543 0,#0a0d15 56%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;min-height:100vh}
+header{max-width:1180px;margin:auto;padding:25px 20px 16px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.brand{display:flex;align-items:center;gap:13px}.logo{width:50px;height:50px;border-radius:16px;background:linear-gradient(140deg,#91a4ff,#6558e8);display:grid;place-items:center;font-size:25px;box-shadow:0 10px 35px #6678ff38}h1{font-size:clamp(22px,3vw,31px);margin:0;letter-spacing:-.5px}header p{margin:5px 0 0;color:var(--muted);font-size:13px}.clock{background:#121827;border:1px solid var(--line);padding:10px 14px;border-radius:13px;font-variant-numeric:tabular-nums;font-weight:750}
+main{max-width:1180px;margin:auto;padding:0 20px 38px}.notice{padding:12px 14px;background:#18213a;border:1px solid #34466e;border-radius:13px;color:#d2dcff;font-size:13px;margin:7px 0 17px;line-height:1.6}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.tab,button,.file-label{font:inherit;border:1px solid var(--line);background:#202a40;color:var(--text);padding:10px 14px;border-radius:11px;cursor:pointer;font-weight:700;transition:filter .15s,transform .08s}.tab{background:#111827;color:var(--muted)}.tab.active{background:#2a3b68;border-color:#637bf3;color:#fff}button:hover,.file-label:hover{filter:brightness(1.15)}button:active{transform:scale(.98)}button.primary{background:var(--blue);border-color:var(--blue)}button.green{background:#174d40;border-color:#287a65}button.danger{background:#49202b;border-color:#783441}button:disabled{opacity:.45;cursor:not-allowed}
+.panel{background:linear-gradient(180deg,#141b2a,#101520);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:16px;box-shadow:0 14px 38px #0002}.panel h2{font-size:19px;margin:0 0 5px}.sub{color:var(--muted);font-size:13px;margin:0 0 17px;line-height:1.6}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.sound-card{background:var(--panel2);border:1px solid var(--line);padding:15px;border-radius:15px;display:flex;flex-direction:column;gap:12px;min-height:165px}.sound-head{display:flex;align-items:center;gap:10px}.sound-icon{width:43px;height:43px;border-radius:13px;background:#2b3856;display:grid;place-items:center;font-size:22px;flex-shrink:0}.sound-card h3{font-size:15px;margin:0 0 3px}.sound-card small{color:var(--muted)}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}.hold-btn{min-height:45px;flex:1;touch-action:none;user-select:none;background:linear-gradient(135deg,#718cff,#6654dd);border-color:#8799ff}.hold-btn.playing{background:linear-gradient(135deg,#ff647d,#b62f62);box-shadow:0 0 0 3px #ff647d28}.status{font-size:13px;color:var(--green);min-height:20px;margin-top:12px}.hidden{display:none!important}.form-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;align-items:end}.field{display:flex;flex-direction:column;gap:6px;min-width:0}.field label{font-size:13px;color:#c7d0e4}.field input,.field select{width:100%;background:#0b101b;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit;min-height:42px}.field input[type=file]{padding:7px}.field input[type=range]{padding:0;accent-color:var(--blue)}.field input[type=checkbox]{width:18px;min-height:auto;accent-color:var(--blue)}.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.row>*{flex:1}.checks{display:flex;gap:10px;flex-wrap:wrap;margin:13px 0}.check{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:13px}.check input{accent-color:var(--blue)}.list{display:flex;flex-direction:column;gap:9px}.item{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:#171f30;border:1px solid var(--line);padding:12px 14px;border-radius:12px}.item strong{font-size:14px}.meta{font-size:12px;color:var(--muted);margin-top:4px}.pill{display:inline-block;padding:4px 9px;border-radius:999px;background:#243451;color:#c8d6ff;font-size:12px}.empty{padding:18px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}.tiny{font-size:12px;color:var(--muted);line-height:1.65}.footer{font-size:12px;color:var(--muted);line-height:1.7;padding:3px}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.form-grid{grid-template-columns:1fr 1fr}.two-col{grid-template-columns:1fr}}
+@media(max-width:520px){header{padding:17px 14px 12px}main{padding:0 14px 28px}.grid,.form-grid{grid-template-columns:1fr}.panel{padding:15px}.clock{font-size:15px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand"><div class="logo">🔔</div><div><h1>School Bell Studio</h1><p>Soundboard · Bell Builder · Schedule</p></div></div>
+ <div class="clock" id="clock">--:--:--</div>
+</header>
+<main>
+ <div class="notice">🔊 <b>Quick tip:</b> Hold a TEST button to play the sound, then release to stop. Keep this page open for scheduled bells. Use your computer's audio output to connect to a compatible amplifier.</div>
+ <nav class="tabs">
+  <button class="tab active" data-tab="board">🎛 Soundboard</button>
+  <button class="tab" data-tab="bells">🔔 Bell Builder</button>
+  <button class="tab" data-tab="schedule">🕒 Schedule</button>
+ </nav>
+
+ <section id="board" class="panel">
+  <h2>Soundboard</h2><p class="sub">Press and hold TEST to play a sound. Release the button to stop it. You can test several sounds together.</p>
+  <div class="grid" id="builtins"></div>
+  <div class="status" id="boardStatus" aria-live="polite"></div>
+  <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
+  <div class="row" style="justify-content:space-between"><div><h2>My audio files</h2><p class="sub" style="margin-bottom:0">Add your own MP3, WAV, M4A, or OGG sounds.</p></div><label class="file-label" for="files">＋ Add audio files</label><input id="files" type="file" accept="audio/*" multiple hidden></div>
+  <div class="grid" id="customGrid" style="margin-top:14px"></div>
+ </section>
+
+ <section id="bells" class="panel hidden">
+  <h2>Bell Builder</h2><p class="sub">Create multiple custom bell buttons, choose one or more sounds, set a duration, and save your bells.</p>
+  <div class="form-grid">
+   <div class="field"><label for="bellName">Bell name</label><input id="bellName" maxlength="50" placeholder="e.g. Break Bell" value="Break Bell"></div>
+   <div class="field"><label for="bellDuration">Play duration (seconds)</label><input id="bellDuration" type="number" min="1" max="600" value="5"></div>
+   <div class="field"><label for="bellVolume">Volume</label><input id="bellVolume" type="range" min="5" max="100" value="75"></div>
+  </div>
+  <div style="margin:16px 0 7px;font-weight:700;font-size:14px">Select sounds to play together</div>
+  <div class="checks" id="bellChoices"></div>
+  <div class="actions"><button class="primary" id="saveBell">💾 Save bell</button><button class="green" id="testBell">▶ Test selected sounds</button><button id="clearBell">Clear selection</button></div>
+  <div class="status" id="bellStatus" aria-live="polite"></div>
+  <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
+  <h2 style="margin-bottom:13px">Saved bells</h2>
+  <div class="grid" id="savedBells"></div>
+ </section>
+
+ <section id="schedule" class="panel hidden">
+  <h2>Bell Schedule</h2><p class="sub">Choose a time, days, and a saved bell. The page must remain open for automatic playback.</p>
+  <div class="form-grid">
+   <div class="field"><label for="eventName">Event name</label><input id="eventName" maxlength="60" value="School Bell"></div>
+   <div class="field"><label for="eventTime">Time</label><input id="eventTime" type="time" value="08:00"></div>
+   <div class="field"><label for="eventBell">Saved bell</label><select id="eventBell"></select></div>
+  </div>
+  <div style="margin:15px 0 8px;font-weight:700;font-size:14px">Days</div>
+  <div class="checks" id="days">
+   <label class="check"><input type="checkbox" value="0" checked> Sunday</label><label class="check"><input type="checkbox" value="1" checked> Monday</label><label class="check"><input type="checkbox" value="2" checked> Tuesday</label><label class="check"><input type="checkbox" value="3" checked> Wednesday</label><label class="check"><input type="checkbox" value="4" checked> Thursday</label><label class="check"><input type="checkbox" value="5"> Friday</label><label class="check"><input type="checkbox" value="6"> Saturday</label>
+  </div>
+  <div class="actions"><button class="primary" id="addSchedule">＋ Add schedule</button><button class="danger" id="stopAll">■ Stop all audio</button></div>
+  <div class="status" id="scheduleStatus" aria-live="polite"></div>
+  <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
+  <div class="row" style="justify-content:space-between"><h2>Scheduled events</h2><button class="danger" id="clearSchedule">Clear schedule</button></div>
+  <div class="list" id="scheduleList" style="margin-top:12px"></div>
+ </section>
+ <p class="footer">This is a local web app. Saved bell definitions and schedules are stored in this browser on this device. Imported audio files are kept for the current session; select them again after closing the page. This app is not a certified emergency-warning system. For external speakers, connect the computer's audio output to a compatible amplifier LINE/AUX input—never connect it directly to speaker wires.</p>
+</main>
+<script>
+const builtin=[
+{id:'school',name:'School Bell',icon:'🔔',desc:'Classic repeating bell',file:'assets/school-bell.wav'},
+{id:'chime',name:'Chime',icon:'🎐',desc:'Short musical chime',file:'assets/chime.wav'},
+{id:'siren',name:'Alert Siren',icon:'🚨',desc:'Electronic alert tone',file:'assets/alert-siren.wav'},
+{id:'buzzer',name:'School Buzzer',icon:'📢',desc:'Pulsing buzzer tone',file:'assets/buzzer.wav'},
+{id:'soft',name:'Soft Bell',icon:'✨',desc:'Gentle single bell',file:'assets/soft-bell.wav'}
+];
+let customSounds=[],savedBells=[],schedules=[],activeAudio=new Set(),activeButtons=new Set(),lastMinute='';
+const $=id=>document.getElementById(id);
+const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function sounds(){return [...builtin,...customSounds]}
+function allBells(){return savedBells}
+function status(id,text){$(id).textContent=text}
+function showTab(id){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));['board','bells','schedule'].forEach(x=>$(x).classList.toggle('hidden',x!==id))}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+function getSound(id){return sounds().find(s=>s.id===id)}
+function stopAudio(a){try{a.pause();a.currentTime=0}catch(e){}activeAudio.delete(a)}
+function stopAll(){for(const a of [...activeAudio])stopAudio(a);document.querySelectorAll('.hold-btn').forEach(b=>b.classList.remove('playing'));activeButtons.clear()}
+function startSound(sound,loop=true,volume=.75){
+ const audio=new Audio(sound.file||sound.url);audio.volume=Math.max(0,Math.min(1,volume));audio.loop=loop;activeAudio.add(audio);
+ audio.play().catch(()=>{status('boardStatus','Could not play audio. Click the button once more to allow playback.');stopAudio(audio)});
+ return audio;
+}
+function holdStart(sound,btn,volume=.75){
+ if(btn.classList.contains('playing'))return;
+ btn.classList.add('playing');activeButtons.add(btn);
+ const audio=startSound(sound,true,volume);btn._audio=audio;
+ status('boardStatus','Playing: '+sound.name+' — release the TEST button to stop.');
+}
+function holdStop(btn){
+ if(!btn)return;if(btn._audio)stopAudio(btn._audio);btn.classList.remove('playing');activeButtons.delete(btn);
+ if(!activeButtons.size)status('boardStatus','Ready. Hold any TEST button to play.');
+}
+function attachHold(btn,sound,volume=.75){
+ const down=e=>{e.preventDefault();holdStart(sound,btn,volume)};
+ const up=e=>{e.preventDefault();holdStop(btn)};
+ btn.addEventListener('pointerdown',down);['pointerup','pointerleave','pointercancel','lostpointercapture'].forEach(ev=>btn.addEventListener(ev,up));
+ btn.addEventListener('keydown',e=>{if((e.key===' '||e.key==='Enter')&&!e.repeat){e.preventDefault();holdStart(sound,btn,volume)}});
+ btn.addEventListener('keyup',e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();holdStop(btn)}});
+}
+function renderBoard(){
+ $('builtins').innerHTML=builtin.map(s=>`<article class="sound-card"><div class="sound-head"><div class="sound-icon">${s.icon}</div><div><h3>${s.name}</h3><small>${s.desc}</small></div></div><div class="actions"><button class="hold-btn" data-hold="${s.id}">▶ HOLD TO TEST</button></div></article>`).join('');
+ $('builtins').querySelectorAll('[data-hold]').forEach(btn=>attachHold(btn,getSound(btn.dataset.hold)));
+ renderCustom();
+}
+function renderCustom(){
+ $('customGrid').innerHTML=customSounds.length?customSounds.map(s=>`<article class="sound-card"><div class="sound-head"><div class="sound-icon">🎵</div><div><h3>${escapeHtml(s.name)}</h3><small>Imported audio file</small></div></div><div class="actions"><button class="hold-btn" data-customhold="${s.id}">▶ HOLD TO TEST</button><button class="danger" data-customdel="${s.id}">Delete</button></div></article>`).join(''):'<div class="empty" style="grid-column:1/-1">No custom audio yet. Use “Add audio files” to import sounds.</div>';
+ $('customGrid').querySelectorAll('[data-customhold]').forEach(btn=>attachHold(btn,getSound(btn.dataset.customhold)));
+ $('customGrid').querySelectorAll('[data-customdel]').forEach(btn=>btn.onclick=()=>{customSounds=customSounds.filter(s=>s.id!==btn.dataset.customdel);renderCustom();renderChoices();renderScheduleSelect()});
+}
+function renderChoices(){
+ $('bellChoices').innerHTML=sounds().map(s=>`<label class="check"><input type="checkbox" value="${s.id}"> ${s.icon} ${escapeHtml(s.name)}</label>`).join('');
+}
+function chosenIds(){return [...$('bellChoices').querySelectorAll('input:checked')].map(x=>x.value)}
+function renderSavedBells(){
+ $('savedBells').innerHTML=savedBells.length?savedBells.map(b=>`<article class="sound-card"><div class="sound-head"><div class="sound-icon">🔔</div><div><h3>${escapeHtml(b.name)}</h3><small>${b.soundIds.map(id=>escapeHtml(getSound(id)?.name||'Unavailable sound')).join(' + ')}</small></div></div><div class="actions"><button class="primary" data-bellplay="${b.id}">▶ Test bell</button><button data-belluse="${b.id}">Use in schedule</button><button class="danger" data-belldel="${b.id}">Delete</button></div></article>`).join(''):'<div class="empty" style="grid-column:1/-1">No saved bells yet. Create one above and press Save bell.</div>';
+ $('savedBells').querySelectorAll('[data-bellplay]').forEach(btn=>btn.onclick=()=>playBell(savedBells.find(b=>b.id===btn.dataset.bellplay)));
+ $('savedBells').querySelectorAll('[data-belluse]').forEach(btn=>btn.onclick=()=>{renderScheduleSelect();$('eventBell').value=btn.dataset.belluse;showTab('schedule');status('scheduleStatus','Bell selected for the schedule.')});
+ $('savedBells').querySelectorAll('[data-belldel]').forEach(btn=>btn.onclick=()=>{savedBells=savedBells.filter(b=>b.id!==btn.dataset.belldel);saveData();renderSavedBells();renderScheduleSelect()});
+}
+function playBell(b){
+ if(!b)return;const dur=b.duration||5,vol=b.volume||.75;
+ (b.soundIds||[]).forEach(id=>{const s=getSound(id);if(s){const a=startSound(s,false,vol);setTimeout(()=>stopAudio(a),dur*1000)}});
+ status('bellStatus','Testing bell: '+b.name+'. Selected sounds play together.');
+}
+function renderScheduleSelect(){
+ const old=$('eventBell').value;
+ $('eventBell').innerHTML=savedBells.map(b=>`<option value="${b.id}">${escapeHtml(b.name)}</option>`).join('');
+ if(!savedBells.length)$('eventBell').innerHTML='<option value="">Create and save a bell first</option>';
+ else if(savedBells.some(b=>b.id===old))$('eventBell').value=old;
+}
+function renderSchedules(){
+ $('scheduleList').innerHTML=schedules.length?schedules.map((s,i)=>`<div class="item"><div><strong>${escapeHtml(s.time)} — ${escapeHtml(s.name)}</strong><div class="meta">${s.days.map(d=>['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][d]).join(', ')} · ${escapeHtml(savedBells.find(b=>b.id===s.bellId)?.name||'Bell unavailable')}</div></div><div class="actions"><span class="pill">${s.enabled?'Enabled':'Paused'}</span><button data-toggle="${i}">${s.enabled?'Pause':'Enable'}</button><button class="danger" data-del="${i}">Delete</button></div></div>`).join(''):'<div class="empty">No scheduled events yet.</div>';
+ $('scheduleList').querySelectorAll('[data-toggle]').forEach(b=>b.onclick=()=>{schedules[+b.dataset.toggle].enabled=!schedules[+b.dataset.toggle].enabled;saveData();renderSchedules()});
+ $('scheduleList').querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{schedules.splice(+b.dataset.del,1);saveData();renderSchedules()});
+}
+function saveData(){try{localStorage.setItem('schoolBellSavedBells',JSON.stringify(savedBells));localStorage.setItem('schoolBellSchedules',JSON.stringify(schedules))}catch(e){}}
+function loadData(){try{savedBells=JSON.parse(localStorage.getItem('schoolBellSavedBells')||'[]');schedules=JSON.parse(localStorage.getItem('schoolBellSchedules')||'[]')}catch(e){savedBells=[];schedules=[]}}
+$('files').addEventListener('change',e=>{
+ const files=[...e.target.files];if(!files.length)return;
+ files.forEach(f=>customSounds.push({id:'custom_'+Date.now()+'_'+Math.random().toString(36).slice(2,7),name:f.name.replace(/\.[^.]+$/,''),icon:'🎵',url:URL.createObjectURL(f),file:URL.createObjectURL(f)}));
+ renderCustom();renderChoices();renderScheduleSelect();status('boardStatus','Imported '+files.length+' audio file(s). Custom files are available during this session.');e.target.value='';
+});
+$('saveBell').onclick=()=>{
+ const ids=chosenIds(),name=$('bellName').value.trim()||'Custom Bell';
+ if(!ids.length){status('bellStatus','Choose at least one sound first.');return}
+ const bell={id:'bell_'+Date.now(),name,soundIds:ids,duration:Math.max(1,Math.min(600,Number($('bellDuration').value)||5)),volume:Number($('bellVolume').value)/100};
+ savedBells.push(bell);saveData();renderSavedBells();renderScheduleSelect();status('bellStatus','Saved "'+name+'". It is now available as a custom bell.');
+};
+$('testBell').onclick=()=>{
+ const ids=chosenIds();if(!ids.length){status('bellStatus','Choose at least one sound first.');return}
+ const dur=Math.max(1,Math.min(600,Number($('bellDuration').value)||5)),vol=Number($('bellVolume').value)/100;
+ ids.forEach(id=>{const s=getSound(id);if(s){const a=startSound(s,false,vol);setTimeout(()=>stopAudio(a),dur*1000)}});
+ status('bellStatus','Testing selected sounds together for '+dur+' seconds.');
+};
+$('clearBell').onclick=()=>{$('bellChoices').querySelectorAll('input').forEach(x=>x.checked=false);status('bellStatus','Selection cleared.')};
+$('addSchedule').onclick=()=>{
+ const time=$('eventTime').value, bellId=$('eventBell').value,name=$('eventName').value.trim()||'School Bell',days=[...$('days').querySelectorAll('input:checked')].map(x=>Number(x.value));
+ if(!time||!bellId){status('scheduleStatus','Choose a time and save a bell first.');return}
+ if(!days.length){status('scheduleStatus','Select at least one day.');return}
+ schedules.push({id:'event_'+Date.now(),time,bellId,name,days,enabled:true,lastFired:''});schedules.sort((a,b)=>a.time.localeCompare(b.time));saveData();renderSchedules();status('scheduleStatus','Schedule saved. Keep this page open for automatic playback.');
+};
+$('stopAll').onclick=()=>{stopAll();status('scheduleStatus','All audio stopped.')};
+$('clearSchedule').onclick=()=>{if(confirm('Delete every scheduled event?')){schedules=[];saveData();renderSchedules();status('scheduleStatus','Schedule cleared.')}};
+function tick(){
+ const now=new Date();$('clock').textContent=now.toLocaleTimeString('en-GB',{hour12:false});
+ const hm=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+ const key=now.getFullYear()+'-'+now.getMonth()+'-'+now.getDate()+' '+hm;
+ if(lastMinute!==key){lastMinute=key;schedules.forEach(s=>{if(s.enabled&&s.time===hm&&s.days.includes(now.getDay())&&s.lastFired!==key){s.lastFired=key;saveData();playBell(savedBells.find(b=>b.id===s.bellId));status('scheduleStatus','Triggered scheduled event: '+s.name)}})}
+}
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+loadData();renderBoard();renderChoices();renderSavedBells();renderScheduleSelect();renderSchedules();tick();setInterval(tick,1000);
+</script>
+</body>
+</html>
